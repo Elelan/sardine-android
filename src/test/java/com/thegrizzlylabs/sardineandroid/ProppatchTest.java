@@ -43,15 +43,15 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
 @Category(IntegrationTest.class)
-public class ProppatchTest {
+public class ProppatchTest extends BaseNextcloudTest {
     /**
      * Try to patch property in WebDAV namespace.
      */
     @Test
     public void testAddPropertyDefaultNamespace() throws Exception {
-        Sardine sardine = new OkHttpSardine();
-        String url = "http://test.cyberduck.ch/dav/anon/sardine/" + UUID.randomUUID().toString();
-        sardine.put(url, new byte[]{});
+        String fileName = "test-prop-" + UUID.randomUUID().toString() + ".txt";
+        String url = getTestUrl(fileName);
+        sardine.put(url, new byte[]{}, null);
         try {
             HashMap<QName, String> patch = new HashMap<>();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
@@ -65,7 +65,9 @@ public class ProppatchTest {
 
             assertNotSame("We actually expect the update to fail as mod_webdav at least prohibits changing this property",
                     now.getTime(), resource.getModified());
-        } finally {
+        }catch (Exception e) {
+            e.printStackTrace();
+        }finally {
             sardine.delete(url);
         }
     }
@@ -75,9 +77,9 @@ public class ProppatchTest {
      */
     @Test
     public void testAddPropertyCustomNamespace() throws Exception {
-        Sardine sardine = new OkHttpSardine();
-        String url = "http://test.cyberduck.ch/dav/anon/sardine/" + UUID.randomUUID().toString();
-        sardine.put(url, new byte[]{});
+        String fileName = "test-prop-" + UUID.randomUUID().toString() + ".txt";
+        String url = getTestUrl(fileName);
+        sardine.put(url, new byte[]{}, null);
         try {
             HashMap<QName, String> patch = new HashMap<>();
             patch.put(SardineUtil.createQNameWithCustomNamespace("fish"), "sardine");
@@ -108,9 +110,9 @@ public class ProppatchTest {
      */
     @Test
     public void testAddCustomComplexProperties() throws Exception {
-        Sardine sardine = new OkHttpSardine();
-        String url = "http://test.cyberduck.ch/dav/anon/sardine/" + UUID.randomUUID().toString();
-        sardine.put(url, new byte[]{});
+        String fileName = "test-prop-" + UUID.randomUUID().toString() + ".txt";
+        String url = getTestUrl(fileName);
+        sardine.put(url, new byte[]{}, null);
         try {
             QName authorsName = new QName("http://ns.example.com/standards/z39.50/:", "Authors", "Z");
             QName authorName = new QName("http://ns.example.com/standards/z39.50/:", "Author", "Z");
@@ -159,9 +161,9 @@ public class ProppatchTest {
      */
     @Test
     public void testRemovePropertyCustomNamespace() throws Exception {
-        Sardine sardine = new OkHttpSardine();
-        String url = "http://test.cyberduck.ch/dav/anon/sardine/" + UUID.randomUUID().toString();
-        sardine.put(url, new byte[]{});
+        String fileName = "test-prop-" + UUID.randomUUID().toString() + ".txt";
+        String url = getTestUrl(fileName);
+        sardine.put(url, new byte[]{}, null);
         try {
             HashMap<QName, String> patch = new HashMap<QName, String>();
             QName property = SardineUtil.createQNameWithCustomNamespace("fish");

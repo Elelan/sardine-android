@@ -1,0 +1,14 @@
+{
+  "name": "sardine-webdav-test-server",
+  "version": "1.0.0",
+  "description": "Local WebDAV server for Sardine Android testing",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {},
+  "keywords": ["webdav", "test", "server"],
+  "author": "Sardine Android Tests",
+  "license": "Apache-2.0"
+}

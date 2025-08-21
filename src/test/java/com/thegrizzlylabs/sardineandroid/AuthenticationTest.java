@@ -30,14 +30,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 @Category(IntegrationTest.class)
-public class AuthenticationTest {
+public class AuthenticationTest extends BaseNextcloudTest {
     @Test
     public void testBasicAuth() throws Exception {
-        Sardine sardine = new OkHttpSardine();
-        sardine.setCredentials("jenkins", "jenkins");
+        // Test with inherited sardine instance (already has credentials)
         try {
-            URI url = URI.create("http://test.cyberduck.ch/dav/basic/");
-            final List<DavResource> resources = sardine.list(url.toString());
+            final List<DavResource> resources = sardine.list(webdavBaseUrl);
             assertNotNull(resources);
             assertFalse(resources.isEmpty());
         } catch (SardineException e) {
@@ -47,11 +45,11 @@ public class AuthenticationTest {
 
     @Test
     public void testPreemptiveBasicAuth() throws Exception {
-        Sardine sardine = new OkHttpSardine();
-        sardine.setCredentials("jenkins", "jenkins", true);
+        // Test preemptive auth with a new sardine instance
+        Sardine testSardine = new OkHttpSardine();
+        testSardine.setCredentials(username, password, true);
         try {
-            URI url = URI.create("http://test.cyberduck.ch/dav/basic/");
-            final List<DavResource> resources = sardine.list(url.toString());
+            final List<DavResource> resources = testSardine.list(webdavBaseUrl);
             assertNotNull(resources);
             assertFalse(resources.isEmpty());
         } catch (SardineException e) {

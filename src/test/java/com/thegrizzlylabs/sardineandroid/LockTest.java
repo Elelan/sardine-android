@@ -28,12 +28,12 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 @Category(IntegrationTest.class)
-public class LockTest {
+public class LockTest extends BaseNextcloudTest {
     @Test
     public void testLockUnlock() throws Exception {
-        Sardine sardine = new OkHttpSardine();
-        String url = String.format("http://test.cyberduck.ch/dav/anon/sardine/%s", UUID.randomUUID().toString());
-        sardine.put(url, new byte[0]);
+        String fileName = "test-lock-" + UUID.randomUUID().toString() + ".txt";
+        String url = getTestUrl(fileName);
+        sardine.put(url, new byte[0], null);
         try {
             String token = sardine.lock(url);
             try {
@@ -70,8 +70,8 @@ public class LockTest {
 
         // Touch new file
         final UUID file = UUID.randomUUID();
-        final String url = String.format("http://test.cyberduck.ch/dav/anon/sardine/%s", file);
-        sardine.put(url, new byte[0]);
+        final String url = getTestUrl(file + ".txt");
+        sardine.put(url, new byte[0], null);
         try {
             String lockToken = sardine.lock(url);
             String result = sardine.refreshLock(url, lockToken, url);

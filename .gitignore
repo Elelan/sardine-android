@@ -17,3 +17,10 @@ jniLibs
 build
 local.properties
 reports
+
+# Test credentials - never commit these!
+test-config.properties
+src/test/resources/test-config.properties
+*.properties
+!test-config.properties
+/tools/webdav/webdav-root/
