@@ -1,6 +1,8 @@
 package com.thegrizzlylabs.sardineandroid.impl;
 
 
+import static okhttp3.internal._UtilCommonKt.closeQuietly;
+
 import android.content.ContentResolver;
 import android.net.Uri;
 
@@ -16,7 +18,6 @@ import java.io.InputStream;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
-import okhttp3.internal.Util;
 import okio.BufferedSink;
 import okio.Okio;
 import okio.Source;
@@ -81,7 +82,7 @@ public class RequestBodyUtil {
 
 
                     } finally {
-                        Util.closeQuietly(source);
+                        closeQuietly(source);
                     }
                 }
 
@@ -138,7 +139,7 @@ public class RequestBodyUtil {
                         sink.flush();
 
                     } finally {
-                        Util.closeQuietly(source);
+                        closeQuietly(source);
                     }
                 }
 
@@ -192,7 +193,7 @@ public class RequestBodyUtil {
                         sink.flush();
 
                     } finally {
-                        Util.closeQuietly(source);
+                        closeQuietly(source);
                     }
                 }
 
