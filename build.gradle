@@ -14,6 +14,7 @@ repositories {
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 android {
     compileSdk 36
@@ -29,6 +30,12 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
+    }
+    
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
     }
 }
 
@@ -74,6 +81,20 @@ tasks.withType(Test) {
     testLogging {
         events "passed", "skipped", "failed"
         exceptionFormat "full"
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                
+                artifactId = 'sardine-android'
+                groupId = 'com.github.elelan'
+                version = project.hasProperty('version') ? project.version : '1.0.0'
+            }
+        }
     }
 }
 
