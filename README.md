@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.elelan:sardine-android:0.1.0-alpha04")
+    implementation("com.github.elelan:sardine-android:0.1.0-alpha05")
 }
 ```
 
