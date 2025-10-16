@@ -9,10 +9,15 @@ A WebDAV client for Android, using [OkHttp](https://github.com/square/okhttp) as
 
 - Edit your app-level `build.gradle` (see top of this page for the latest version):
 
-```
+```gradle
+repositories {
+    google()
+    mavenCentral()
+    maven("https://jitpack.io")
+}
+
 dependencies {
-  ...
-  implementation 'com.thegrizzlylabs.sardine-android:sardine-android:<VERSION_NUMBER>'
+    implementation("com.github.elelan:sardine-android:0.1.0-alpha04")
 }
 ```
 

@@ -20,7 +20,7 @@ allprojects {
 2. Add the dependency to your app's `build.gradle`:
 ```gradle
 dependencies {
-    implementation 'com.github.yourusername:sardine-android:main-SNAPSHOT'
+    implementation("com.github.elelan:sardine-android:0.1.0-alpha04")
 }
 ```
 
