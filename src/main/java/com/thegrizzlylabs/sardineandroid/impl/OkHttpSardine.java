@@ -325,6 +325,51 @@ public class OkHttpSardine implements Sardine {
     }
 
     @Override
+    public void put(String url, InputStream is, SardineListener listener) throws IOException {
+        put (url, is, null, false, listener);
+    }
+
+    @Override
+    public void put(String url, InputStream is, String contentType, SardineListener listener) throws IOException {
+        put (url, is, contentType, false, listener);
+    }
+
+    @Override
+    public void put(String url, InputStream is, String contentType, boolean expectContinue, SardineListener listener) throws IOException {
+        MediaType mediaType = contentType == null ? null : MediaType.parse(contentType);
+        RequestBody requestBody = RequestBodyUtil.create(mediaType, is, listener);
+        Headers.Builder headersBuilder = new Headers.Builder();
+        if (expectContinue) {
+            headersBuilder.add("Expect", "100-Continue");
+        }
+        put(url, requestBody, headersBuilder.build());
+    }
+
+    @Override
+    public void put(String url, InputStream dataStream, String contentType, boolean expectContinue, long contentLength, SardineListener listener) throws IOException {
+        MediaType mediaType = contentType == null ? null : MediaType.parse(contentType);
+        RequestBody requestBody = RequestBodyUtil.create(mediaType, dataStream, listener);
+        Headers.Builder headersBuilder = new Headers.Builder();
+        if (expectContinue) {
+            headersBuilder.add("Expect", "100-Continue");
+        }
+
+        headersBuilder.add("Content-Length", contentLength + "");
+
+        put(url, requestBody, headersBuilder.build());
+    }
+
+    @Override
+    public void put(String url, InputStream dataStream, Map<String, String> headers, SardineListener listener) throws IOException {
+        RequestBody requestBody = RequestBodyUtil.create(null, dataStream, listener);
+        Headers.Builder headersBuilder = new Headers.Builder();
+        for (String key : headers.keySet())
+            headersBuilder.add(key,headers.get(key));
+
+        put(url, requestBody, headersBuilder.build());
+    }
+
+    @Override
     public void put(ContentResolver cr, String url, Uri is, long contentLength, SardineListener listener) throws IOException {
         put (cr, url, is, contentLength, null, false, listener);
     }
@@ -351,8 +396,7 @@ public class OkHttpSardine implements Sardine {
     }
 
     @Override
-    public void put(ContentResolver cr, String url, Uri dataStream, String contentType, boolean expectContinue, long contentLength, SardineListener listener) throws IOException
-    {
+    public void put(ContentResolver cr, String url, Uri dataStream, String contentType, boolean expectContinue, long contentLength, SardineListener listener) throws IOException {
         MediaType mediaType = contentType == null ? null : MediaType.parse(contentType);
         RequestBody requestBody = RequestBodyUtil.create(cr, dataStream, contentLength, mediaType, listener);
         Headers.Builder headersBuilder = new Headers.Builder();
@@ -366,8 +410,7 @@ public class OkHttpSardine implements Sardine {
     }
 
     @Override
-    public void put(ContentResolver cr, String url, Uri dataStream, long contentLength, Map<String, String> headers, SardineListener listener) throws IOException
-    {
+    public void put(ContentResolver cr, String url, Uri dataStream, long contentLength, Map<String, String> headers, SardineListener listener) throws IOException {
         RequestBody requestBody = RequestBodyUtil.create(cr, dataStream, contentLength, null, listener);
         Headers.Builder headersBuilder = new Headers.Builder();
         for (String key : headers.keySet())

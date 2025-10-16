@@ -4,7 +4,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.12.1'
+        classpath 'com.android.tools.build:gradle:8.13.0'
     }
 }
 
@@ -40,7 +40,7 @@ android {
 }
 
 dependencies {
-    api 'com.squareup.okhttp3:okhttp:5.1.0'
+    api 'com.squareup.okhttp3:okhttp:5.2.1'
 
     implementation 'androidx.annotation:annotation:1.9.1'
     implementation ('org.simpleframework:simple-xml:2.7.1') {
@@ -53,14 +53,14 @@ dependencies {
 }
 
 // Task to run only working tests (no external servers)
-task testWorking(type: Test) {
+tasks.register('testWorking', Test) {
     include '**/NextcloudTest.class'
-    include '**/NextcloudIntegrationTest.class' 
+    include '**/NextcloudIntegrationTest.class'
     include '**/SardineUtilTest.class'
     include '**/DavResourceTest.class'
     include '**/BaseNextcloudTest.class'
     include '**/impl/handler/**'
-    
+
     testLogging {
         events "passed", "skipped", "failed"
         exceptionFormat "full"
@@ -68,7 +68,7 @@ task testWorking(type: Test) {
 }
 
 // Task to run all tests including external ones (will fail if servers down)
-task testAll(type: Test) {
+tasks.register('testAll', Test) {
     // Runs all tests including external integration tests
     testLogging {
         events "passed", "skipped", "failed"
@@ -77,7 +77,7 @@ task testAll(type: Test) {
 }
 
 // Configure test tasks
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
     testLogging {
         events "passed", "skipped", "failed"
         exceptionFormat "full"

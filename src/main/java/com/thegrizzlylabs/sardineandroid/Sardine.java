@@ -200,6 +200,8 @@ public interface Sardine
 	// InputStream not supported
 	// See https://github.com/square/okhttp/issues/2424
 
+	void put(String url, InputStream dataStream, SardineListener listener) throws IOException;
+
 	void put(ContentResolver cr, String url, Uri dataStream, long contentLength, SardineListener listener) throws IOException;
 
 	/**
@@ -222,6 +224,7 @@ public interface Sardine
 	 * @param contentType MIME type to add to the HTTP request header
 	 * @throws IOException I/O error or HTTP response validation failure
 	 */
+	void put(String url, InputStream dataStream, String contentType, SardineListener listener) throws IOException;
 	void put(ContentResolver cr, String url, Uri dataStream, long contentLength, String contentType, SardineListener listener) throws IOException;
 
 	/**
@@ -234,6 +237,7 @@ public interface Sardine
 	 * @param expectContinue Enable <code>Expect: continue</code> header for <code>PUT</code> requests.
 	 * @throws IOException I/O error or HTTP response validation failure
 	 */
+	void put(String url, InputStream dataStream, String contentType, boolean expectContinue, SardineListener listener) throws IOException;
 	void put(ContentResolver cr, String url, Uri dataStream, long contentLength, String contentType, boolean expectContinue, SardineListener listener) throws IOException;
 
 	/**
@@ -247,6 +251,7 @@ public interface Sardine
 	 * @param contentLength data size in bytes to set to Content-Length header
 	 * @throws IOException I/O error or HTTP response validation failure
 	 */
+	void put(String url, InputStream dataStream, String contentType, boolean expectContinue, long contentLength, SardineListener listener) throws IOException;
 	void put(ContentResolver cr, String url, Uri dataStream, String contentType, boolean expectContinue, long contentLength, SardineListener listener) throws IOException;
 
 	/**
@@ -258,6 +263,7 @@ public interface Sardine
 	 * @param headers	Additional HTTP headers to add to the request
 	 * @throws IOException I/O error or HTTP response validation failure
 	 */
+	void put(String url, InputStream dataStream, Map<String, String> headers, SardineListener listener) throws IOException;
 	void put(ContentResolver cr, String url, Uri dataStream, long contentLength, Map<String, String> headers, SardineListener listener) throws IOException;
 
 	/**
@@ -281,6 +287,7 @@ public interface Sardine
 	 * @param expectContinue Enable <code>Expect: continue</code> header for <code>PUT</code> requests.
 	 * @throws IOException I/O error or HTTP response validation failure
 	 */
+	//void put(String url, File localFile, String contentType, boolean expectContinue) throws IOException;
 	void put(String url, File localFile, String contentType, boolean expectContinue, SardineListener listener) throws IOException;
 
 	/**
